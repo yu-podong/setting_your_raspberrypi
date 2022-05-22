@@ -82,7 +82,6 @@ void func_pumpon()
   if (wiringPiSetup() == -1)
   {
     fprintf(stdout, "Unable to start wiringPi: %s\n", strerror(errno));
-    return 1;
   }
 
   pinMode(PUMP, OUTPUT);
@@ -107,7 +106,6 @@ void func_fanon()
   if (wiringPiSetup() == -1)
   {
     fprintf(stdout, "Unable to start wiringPi: %s\n", strerror(errno));
-    return 1;
   }
 
   pinMode(FAN, OUTPUT);
@@ -126,7 +124,6 @@ void func_ledbar()
   if (wiringPiSetup() == -1)
   {
     fprintf(stdout, "Unable to start wiringPi: %s\n", strerror(errno));
-    return 1;
   }
 
   pinMode(LEDBAR, OUTPUT);
@@ -231,7 +228,6 @@ void func_dcmotoron()
   if (wiringPiSetup() == -1)
   {
     fprintf(stdout, "Unable to start wiringPi: %s\n", strerror(errno));
-    return 1;
   }
 
   pinMode(DCMOTOR, OUTPUT);
@@ -250,7 +246,6 @@ void func_rgbtest()
   if (wiringPiSetup() == -1)
   {
     fprintf(stdout, "Unable to start wiringPi: %s\n", strerror(errno));
-    return 1;
   }
 
   pinMode(RGBLEDPOWER, OUTPUT);
