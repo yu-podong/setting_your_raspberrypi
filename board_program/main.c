@@ -338,7 +338,13 @@ void Bpluspinmodeset_RGB(void)
 void sig_handler(int signo)
 {
   printf("process stop\n");
-  digitalWrite(PUMP, 0); // Off
-
+  // All Actuator Off
+  digitalWrite(PUMP, 0);
+  digitalWrite(FAN, 0);
+  digitalWrite(BUZCONTROL, 0);
+  digitalWrite(DCMOTOR, 0);
+  digitalWrite(RED, 0);
+  digitalWrite(BLUE, 0);
+  digitalWrite(GREEN, 0);
   exit(0);
 }
