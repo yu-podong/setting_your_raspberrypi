@@ -1,5 +1,5 @@
 all: main.o
-	gcc -o maic.out main.c -lpthread -lWiriingpi
+	gcc -o sym.out main.c -lpthread -lWiringpi
 main.o: main.c
 	gcc -c main.c
 
