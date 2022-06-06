@@ -1,0 +1,49 @@
+.connection .contents {
+	justify-content: center;
+}
+
+.connection .contents .left,
+.connection .contents .right {
+	width: 49%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.connection .contents .page-title {
+	display: inline-block;
+	margin-bottom: 30px;
+	font-size: 35px;
+	font-weight: 900;
+}
+
+.connection .contents .list {
+	padding: 0px 40px;
+}
+
+.connection .contents .list li {
+	width: 100%;
+	padding: 25px 0px 25px 20px ;
+	font-size: 20px;
+	border-bottom: 1px solid #DDDDDD;
+	box-sizing: border-box;
+}
+
+.connection .contents .list li > span:nth-child(1) {
+	display: inline-block;
+	width: 70%;
+}
+
+.connection .contents .right {
+	padding-left: 40px;
+	border-left: 1px solid #DDDDDD;
+}
+
+.connection .connect {
+	color: #4C9B4A;
+}
+
+.connection .non-connect {
+	color: #D34E4E;
+}
