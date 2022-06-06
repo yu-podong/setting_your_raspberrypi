@@ -1,3 +1,13 @@
+<?php
+include_once "../db/lib.php";
+
+$db = new db();
+
+$userID = $_GET['id'];
+
+$db->finish();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -20,6 +30,7 @@
 		<!-- js file -->
 		<script src="../js/actuator.js" defer></script>
 		<script src="../js/actuator-btn.js" defer></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 		<title>Actuator Testing</title>
 	</head>
@@ -30,24 +41,12 @@
 			<div>
 				<!-- Left nab-bar -->
 				<nav class="nav-bar">
-					<!-- Board info -->
-					<!-- <ul class="board-info">
-						<li class="title">Board 정보확인</li>
-						<li>
-							<span class="var-name">OS version</span>
-							<span class="value"><?=$os_version?></span>
-						</li>
-						<li>
-							<span class="var-name">User Name</span>
-							<span class="value"><?=$user_name?></span>
-						</li>
-					</ul> -->
 					<!-- Menu -->
 					<ul class="menu">
 						<li class="title">Menu</li>
-						<li class="item"><a href="./sensor-test.php">Sensor</a></li>
-						<li class="item click"><a href="./actuator-test.php">Actuator</a></li>
-						<li class="item"><a href="./state.php">Connection check</a></li>
+						<li class="item"><a href="./sensor-test.php?id=<?php echo $userID?>">Sensor</a></li>
+						<li class="item click"><a href="./actuator-test.php?id=<?php echo $userID?>">Actuator</a></li>
+						<li class="item"><a href="./state.php?id=<?php echo $userID?>">Connection check</a></li>
 					</ul>
 
 					<div class="help">
@@ -63,25 +62,24 @@
 						<div class="left">
 							<span class="page-title">Actuator</span>
 							<ul class="list">
-								<li class="item1 click">Water pump</li>
-								<li class="item2">Fan control</li>
-								<li class="item3">LED control</li>
-								<li class="item4">Motor control</li>
-								<li class="item5">Buzzer</li>
-								<li class="item6">RGB LED</li>
-								<li class="item7">Servo motor</li>
+								<li class="item1 click" onclick="setExeNum(8)">Water pump</li>
+								<li class="item2" onclick="setExeNum(9)">Fan control</li>
+								<li class="item3" onclick="setExeNum(10)">LED control</li>
+								<li class="item5" onclick="setExeNum(11)">Buzzer</li>
+								<li class="item6" onclick="setExeNum(12)">RGB LED</li>
+								<li class="item7" onclick="setExeNum(13)">Servo motor</li>
 							</ul>
 						</div>
 						<div class="right">
 							<ul class="connect-method">
 								<li class="title">⚙ 연결방법</li>
 								<li class="image"><img src="../resource/image/actuator/pump.png" alt="water pump"></li>
-								<li><button class="check-btn">연결상태 확인</button></li>
+								<li><button class="check-btn" onclick="updateExeNum()">연결상태 확인</button></li>
 							</ul>
 							<ul class="result">
 								<li class="title">✔ 추가 기능</li>
-								<li><button class="stop-btn">stop testing</button></li>
-								<li><button class="view-btn" onclick="loadText()">view code</button></li>
+								<li><button class="stop-btn" onclick="stopExe()">stop testing</button></li>
+								<li><button class="view-btn">view code</button></li>
 								<li><button class="download-btn" onclick="downloadFile()">download code</button></li>
 							</ul>
 						</div>
@@ -91,3 +89,47 @@
 		</section>
 	</body>
 </html>
+
+<script>
+let exeNum = 8;
+<?php 
+	echo "let userID = parseInt('$userID');";
+?>
+
+function setExeNum(num) {
+	exeNum = num;
+	console.log(`type: ${typeof(exeNum)},  value: ${exeNum}`);
+}
+function updateExeNum() {
+        console.log(typeof(userID), typeof(exeNum));
+        console.log(userID);
+        console.log(exeNum);
+        $.ajax({
+                type: 'POST',
+                url: `../db/update-exe.php`,
+                data: {id: `${userID}`, exenum: `${exeNum}`},
+                success: () => {
+                        console.log('success');
+                },
+                error: () => {
+                        cnsole.log('fail');
+                }
+
+        });
+}
+
+function stopExe() {
+        $.ajax({
+                type: 'POST',
+                url: `../db/stop-exe.php`,
+                data: {id: `${userID}`},
+                success: () => {
+                        console.log('success');
+                },
+                error: () => {
+                        console.log('fail');
+                }
+
+        });
+}
+</script>

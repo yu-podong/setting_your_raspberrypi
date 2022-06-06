@@ -24,7 +24,7 @@
 				시작하려면, 아래의 정보를 입력해주세요 :)
 			</span>
 
-			<form action="URL" method="POST">
+			<form action="./view/sensor-test.php" method="POST">
 				<input type="text" name="name" placeholder="이름">
 				<input type="text" name="stunum" placeholder="학번">
 
@@ -33,3 +33,5 @@
 		</section>
 	</body>
 </html>
+
+

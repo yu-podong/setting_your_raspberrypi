@@ -1,3 +1,44 @@
+<?php
+include_once "../db/lib.php";
+
+$db = new db();
+
+$userName = $_POST['name'];
+$stuNum = $_POST['stunum'];
+$userID;
+$islogin = 0;
+
+if($islogin == 0) {
+	// DB에 저장되어 있는 사용자인지 확인
+	$db->get("select * from user where stunum='$stuNum'", $rs, $rn);
+
+	// 신규 사용자면
+	if($rn == 0) {
+        	// user에 정보 삽입
+        	$db->act("INSERT INTO user(name, stunum) VALUES('$userName', '$stuNum')");
+
+        	// 해당 사용자의 ID 확인
+       		 $db->get("select * from user where stunum='$stuNum'", $rs, $rn);
+       		 // 사용자의 ID 저장
+	        $userID = $rs[0]['id'];
+	
+	        // 초기 세팅 진행
+	        $db->act("INSERT INTO execute VALUES($userID, 0)");
+	        $db->act("INSERT INTO stop VALUES($userID, 0)");
+	        $db->act("INSERT INTO sensor VALUES($userID, -1,-1,-1,-1,-1,-1,-1)");
+        	$db->act("INSERT INTO actuator VALUES($userID, -1,-1,-1,-1,-1,-1,-1)");
+	}
+	// 기존 사용자면
+	else {
+        	// 사용자의 ID 저장
+        	$userID = $rs[0]['id'];
+	}	
+	$db->finish();
+
+	$islogin = 1;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -20,6 +61,7 @@
 		<!-- js file -->
 		<script src="../js/sensor.js" defer></script>
 		<script src="../js/sensor-btn.js" defer></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 		<title>Sensor Testing</title>
 	</head>
@@ -32,9 +74,9 @@
 				<nav class="nav-bar">
 					<ul class="menu">
 						<li class="title">Menu</li>
-						<li class="item click"><a href="./sensor-test.html">Sensor</a></li>
-						<li class="item"><a href="./actuator-test.html">Actuator</a></li>
-						<li class="item"><a href="./state.html">Connection check</a></li>
+						<li class="item click"><a href="./sensor-test.php?id=<?php echo $userID?>">Sensor</a></li>
+						<li class="item"><a href="./actuator-test.php?id=<?php echo $userID?>">Actuator</a></li>
+						<li class="item"><a href="./state.php?id=<?php echo $userID?>">Connection check</a></li>
 					</ul>
 
 					<div class="help">
@@ -50,25 +92,25 @@
 						<div class="left">
 							<span class="page-title">Sensor</span>
 							<ul class="list">
-								<li class="item1 click">조도 센서</li>
-								<li class="item2">온도/습도 센서</li>
-								<li class="item3">사운드 센서</li>
-								<li class="item4">초음파 센서</li>
-								<li class="item5">불꽃 센서</li>
-								<li class="item6">가스 센서</li>
-								<li class="item7">근접 센서</li>
+								<li class="item1 click" onclick="setExeNum(1)">조도 센서</li>
+								<li class="item2" onclick="setExeNum(2)">온도/습도 센서</li>
+								<li class="item3" onclick="setExeNum(3)">사운드 센서</li>
+								<li class="item4" onclick="setExeNum(4)">초음파 센서</li>
+								<li class="item5" onclick="setExeNum(5)">불꽃 센서</li>
+								<li class="item6" onclick="setExeNum(6)">가스 센서</li>
+								<li class="item7" onclick="setExeNum(7)">근접 센서</li>
 							</ul>
 						</div>
 						<div class="right">
 							<ul class="connect-method">
 								<li class="title">⚙ 연결방법</li>
 								<li class="image"><img src="../resource/image/sensor/light.png" alt=""></li>
-								<li><button class="check-btn">연결상태 확인</button></li>
+								<li><button class="check-btn" onclick="updateExeNum()">연결상태 확인</button></li>
 							</ul>
 							<ul class="result">
 								<li class="title">✔ 추가 기능</li>
-								<li><button class="stop-btn">stop testing</button></li>
-								<li><button class="view-btn" onclick="loadText()">view code</button></li>
+								<li><button class="stop-btn" onclick="stopExe()">stop testing</button></li>
+								<li><button class="view-btn">view code</button></li>
 								<li><button class="download-btn" onclick="downloadFile()">download code</button></li>
 							</ul>
 						</div>
@@ -81,3 +123,51 @@
 		</div>
 	</body>
 </html>
+
+<script>
+let exeNum=1;
+<?php
+	echo "let userID = parseInt('$userID');";
+?>
+
+function setExeNum(num) {
+	exeNum = num;
+	console.log(`type: ${typeof(exeNum)},  value: ${exeNum}`);
+}
+
+function updateExeNum() {
+	<?php
+		echo "let userID = parseInt('$userID');";
+	?>	
+	console.log(typeof(userID), typeof(exeNum));
+	console.log(userID);
+	console.log(exeNum);
+	$.ajax({
+		type: 'POST',
+		url: `../db/update-exe.php`,
+		data: {id: `${userID}`, exenum: `${exeNum}`},
+		success: () => {
+			console.log('success');
+		},
+		error: () => {
+			cnsole.log('fail');
+		}
+
+	});
+}
+
+function stopExe() {
+	$.ajax({
+		type: 'POST',
+		url: `../db/stop-exe.php`,
+		data: {id: `${userID}`},
+		success: () => {
+			console.log('success');
+		},
+		error: () => {
+			console.log('fail');
+		}
+
+	});
+}
+</script>
