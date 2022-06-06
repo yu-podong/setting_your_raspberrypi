@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "1234", "syr");
+$conn = mysqli_connect("localhost", "root", "team02", "syr");
 
 $userName=$_GET['userName'];
 $userStuID=$_GET['userStuID'];

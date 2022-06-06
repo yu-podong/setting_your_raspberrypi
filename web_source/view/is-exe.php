@@ -1,5 +1,5 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "1234", "syr");
+$conn = mysqli_connect("localhost", "root", "team02", "syr");
 
 $userid=$_GET['userid'];
 $rs = mysqli_query($conn, "select * from execute where userid = {$userid};");

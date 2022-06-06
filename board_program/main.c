@@ -972,7 +972,7 @@ void request(int _select, int _value, int _userid)
   // printf("\n---userid : %d\n", _userid);
 
   char buf[2048];
-  char requestURL[2048] = "192.168.219.104/gitSource3/setting_your_raspberrypi/web_source/view/insertData.php";
+  char requestURL[2048] = "113.198.137.181:2002/setting_your_raspberrypi/web_source/view/insertData.php";
   sprintf(buf, "curl '%s?userid=%d&value=%d&select=%d' ", requestURL, _userid, _value, _select);
   // printf("BUF : %s", buf);
   system(buf);
@@ -985,7 +985,7 @@ int isExe(int _userid)
 
   char buf[2048];
   int exenum;
-  char requestURL[2048] = "192.168.219.104/gitSource3/setting_your_raspberrypi/web_source/view/is-exe.php";
+  char requestURL[2048] = "113.198.137.181:2002/setting_your_raspberrypi/web_source/view/is-exe.php";
   sprintf(buf, "curl '%s?userid=%d' > isExe.txt", requestURL, _userid);
   system(buf);
 
@@ -1015,7 +1015,7 @@ int isStop(int _userid)
   // if 1 = stop, 0 = exec
   char buf[2048];
   int isStop;
-  char requestURL[2048] = "192.168.219.104/gitSource3/setting_your_raspberrypi/web_source/view/is-stop.php";
+  char requestURL[2048] = "113.198.137.181:2002/setting_your_raspberrypi/web_source/view/is-stop.php";
   sprintf(buf, "curl '%s?userid=%d' > isStop.txt", requestURL, _userid);
   system(buf);
 
@@ -1043,7 +1043,7 @@ int isStop(int _userid)
 void initStop(int _userid)
 {
   char buf[2048];
-  char requestURL[2048] = "192.168.219.104/gitSource3/setting_your_raspberrypi/web_source/view/init-stop.php";
+  char requestURL[2048] = "113.198.137.181:2002/setting_your_raspberrypi/web_source/view/init-stop.php";
   sprintf(buf, "curl '%s?userid=%d'", requestURL, _userid);
   system(buf);
 }
@@ -1055,7 +1055,7 @@ int getUser(char *_userName, char *_userStuID)
   // printf("userStuID : %s\n" , _userStuID);
 
   char buf[2048];
-  char requestURL[2048] = "192.168.219.104/gitSource3/setting_your_raspberrypi/web_source/view/get-user-id.php";
+  char requestURL[2048] = "113.198.137.181:2002/setting_your_raspberrypi/web_source/view/get-user-id.php";
 
   sprintf(buf, "curl '%s?userName=%s&userStuID=%s' > userInfo.txt", requestURL, _userName, _userStuID);
   system(buf);
